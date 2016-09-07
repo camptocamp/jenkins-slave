@@ -18,6 +18,9 @@ if [ ! -z "$NODE_LABELS" ]; then
     PARAMS="$PARAMS -labels $l"
   done
 fi
+if [ ! -z "$SLAVE_NAME" ]; then
+  PARAMS="$PARAMS -name $SLAVE_NAME"
+fi
 if [ ! -z "$JENKINS_MASTER" ]; then
   PARAMS="$PARAMS -master $JENKINS_MASTER"
 else
