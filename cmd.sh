@@ -21,7 +21,7 @@ fi
 if [ ! -z "$SLAVE_NAME" ]; then
   PARAMS="$PARAMS -name $SLAVE_NAME"
 else
-  if getent host rancher-metadata >/dev/null; then
+  if getent hosts rancher-metadata >/dev/null; then
     SLAVE_NAME=$(curl http://rancher-metadata/latest/self/container/name)
     PARAMS="$PARAMS -name $SLAVE_NAME"
   fi
