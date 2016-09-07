@@ -20,6 +20,11 @@ if [ ! -z "$NODE_LABELS" ]; then
 fi
 if [ ! -z "$SLAVE_NAME" ]; then
   PARAMS="$PARAMS -name $SLAVE_NAME"
+else
+  if getent host rancher-metadata >/dev/null; then
+    SLAVE_NAME=$(curl http://rancher-metadata/latest/self/container/name)
+    PARAMS="$PARAMS -name $SLAVE_NAME"
+  fi
 fi
 if [ ! -z "$JENKINS_MASTER" ]; then
   PARAMS="$PARAMS -master $JENKINS_MASTER"
