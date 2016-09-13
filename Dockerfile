@@ -40,4 +40,10 @@ VOLUME /var/lib/docker
 #ENV JENKINS_PASSWORD jenkins
 #ENV JENKINS_MASTER http://jenkins:8080
 
+# Install rancher-compose
+ENV RANCHER_COMPOSE_VERSION 0.9.2
+RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$RANCHER_COMPOSE_VERSION/rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz \
+  && tar --strip-components=2 -xvzf rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz -C /usr/local/bin \
+  && chmod +x /usr/local/bin/rancher-compose
+
 CMD /bin/bash /cmd.sh
