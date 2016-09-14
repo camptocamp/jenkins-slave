@@ -46,4 +46,8 @@ RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$R
   && tar --strip-components=2 -xvzf rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz -C /usr/local/bin \
   && chmod +x /usr/local/bin/rancher-compose
 
+
+# Install basic development tools
+RUN apt-get install -y make
+
 CMD /bin/bash /cmd.sh
