@@ -10,7 +10,6 @@ done
 # If we have docker bind mounted in - no need.
 if (docker version); then
 	echo "Docker is already bind mounted in - we are good to go..."
-    exec "$@"
     exit
 fi
 
@@ -98,13 +97,4 @@ popd >/dev/null
 # delete it so that docker can start.
 rm -rf /var/run/docker.pid
 
-docker daemon $DOCKER_DAEMON_ARGS &
-(( timeout = 60 + SECONDS ))
-until docker info >/dev/null 2>&1
-do
-  if (( SECONDS >= timeout )); then
-    echo 'Timed out trying to connect to internal docker host.' >&2
-    break
-  fi
-  sleep 1
-done
+docker daemon $DOCKER_DAEMON_ARGS
