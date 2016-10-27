@@ -1,54 +1,57 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
-MAINTAINER Bilal Sheikh <bilal@techtraits.com>
+MAINTAINER Raphaël Pinson <raphael.pinson@camptocamp.com>
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install software-properties-common && add-apt-repository ppa:webupd8team/java -y && apt-get update
+ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
+    PATH=$JAVA_HOME/bin:$PATH \
+    JENKINS_SWARM_VERSION=2.2 \
+    HOME=/home/jenkins-slave \
+    RANCHER_COMPOSE_VERSION=0.9.2
 
-RUN (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) && apt-get install -y oracle-java8-installer oracle-java8-set-default
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get -y install software-properties-common && \
+    apt-get clean
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-ENV PATH $JAVA_HOME/bin:$PATH
-
+RUN add-apt-repository ppa:webupd8team/java -y && \
+    apt-get update && \ 
+    (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) && \
+    apt-get install -y oracle-java8-installer oracle-java8-set-default && \
+    apt-get clean
 
 # apparmor is required to run docker server within docker container
-RUN apt-get update -qq && apt-get install -qqy wget curl git iptables ca-certificates apparmor
-
-ENV JENKINS_SWARM_VERSION 2.2
-ENV HOME /home/jenkins-slave
-
+RUN apt-get update && \
+    apt-get install -y wget curl git iptables ca-certificates apparmor && \
+    apt-get clean
 
 RUN useradd -c "Jenkins Slave user" -d $HOME -m jenkins-slave
 RUN curl --create-dirs -sSLo $HOME/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar
-ADD cmd.sh /cmd.sh
-
-# setup our local files first
-ADD docker-wrapper.sh /usr/local/bin/docker-wrapper
-RUN chmod +x /usr/local/bin/docker-wrapper
 
 # now we install docker in docker - thanks to https://github.com/jpetazzo/dind
 # We install newest docker into our docker in docker container
 RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz \
   && tar --strip-components=1 -xvzf docker-latest.tgz -C /usr/local/bin \
-  && chmod +x /usr/local/bin/docker
+  && chmod +x /usr/local/bin/docker \
+  && rm -f docker-latest.tgz
 
 VOLUME /var/lib/docker
 
-#ENV JENKINS_USERNAME jenkins
-#ENV JENKINS_PASSWORD jenkins
-#ENV JENKINS_MASTER http://jenkins:8080
-
 # Install rancher-compose
-ENV RANCHER_COMPOSE_VERSION 0.9.2
 RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$RANCHER_COMPOSE_VERSION/rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz \
   && tar --strip-components=2 -xvzf rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz -C /usr/local/bin \
-  && chmod +x /usr/local/bin/rancher-compose
-
+  && chmod +x /usr/local/bin/rancher-compose \
+  && rm -f rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz
 
 # Install basic development tools
-RUN apt-get install -y make
-
+RUN apt-get update && \
+    apt-get install -y make && \
+    apt-get clean
 
 # Copy runit scripts
+RUN apt-get update && \
+    apt-get install -y runit && \
+    apt-get clean
+
 RUN mkdir -p /etc/service/docker
 COPY docker-run.sh /etc/service/docker/run
 
