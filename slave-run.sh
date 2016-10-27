@@ -1,5 +1,7 @@
 #!/bin/sh
 
+exec 2>&1
+
 # jenkins swarm slave
 JAR=`ls -1 $HOME/swarm-client-*.jar | tail -n 1`
 

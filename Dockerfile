@@ -21,9 +21,6 @@ RUN useradd -c "Jenkins Slave user" -d $HOME -m jenkins-slave
 RUN curl --create-dirs -sSLo $HOME/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar
 ADD cmd.sh /cmd.sh
 
-# set our wrapper
-ENTRYPOINT ["/usr/local/bin/docker-wrapper"]
-
 # setup our local files first
 ADD docker-wrapper.sh /usr/local/bin/docker-wrapper
 RUN chmod +x /usr/local/bin/docker-wrapper
@@ -50,4 +47,12 @@ RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$R
 # Install basic development tools
 RUN apt-get install -y make
 
-CMD /bin/bash /cmd.sh
+
+# Copy runit scripts
+RUN mkdir -p /etc/service/docker
+COPY docker-run.sh /etc/service/docker/run
+
+RUN mkdir -p /etc/service/jenkins-slave
+COPY slave-run.sh /etc/service/jenkins-slave/run
+
+ENTRYPOINT ["/usr/sbin/runsvdir-start"]

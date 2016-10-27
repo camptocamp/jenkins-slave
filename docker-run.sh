@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exec 2>&1
+
 for i in {0..6}
 do
     mknod -m0660 /dev/loop$i b 7 $i
@@ -106,4 +108,3 @@ do
   fi
   sleep 1
 done
-exec "$@"
