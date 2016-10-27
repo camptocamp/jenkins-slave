@@ -58,4 +58,4 @@ COPY docker-run.sh /etc/service/docker/run
 RUN mkdir -p /etc/service/jenkins-slave
 COPY slave-run.sh /etc/service/jenkins-slave/run
 
-ENTRYPOINT ["/usr/sbin/runsvdir-start"]
+ENTRYPOINT ["/usr/bin/runsvdir", "-P", "/etc/service"]
