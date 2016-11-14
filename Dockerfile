@@ -34,8 +34,6 @@ RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz \
   && chmod +x /usr/local/bin/docker \
   && rm -f docker-latest.tgz
 
-VOLUME /var/lib/docker
-
 # Install rancher-compose
 RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$RANCHER_COMPOSE_VERSION/rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz \
   && tar --strip-components=2 -xvzf rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz -C /usr/local/bin \
@@ -51,9 +49,6 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y runit && \
     apt-get clean
-
-RUN mkdir -p /etc/service/docker
-COPY docker-run.sh /etc/service/docker/run
 
 RUN mkdir -p /etc/service/jenkins-slave
 COPY slave-run.sh /etc/service/jenkins-slave/run
