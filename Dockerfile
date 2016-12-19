@@ -7,7 +7,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     JENKINS_SWARM_VERSION=2.2 \
     HOME=/home/jenkins-slave \
     DOCKER_VERSION=1.11.2 \
-    RANCHER_COMPOSE_VERSION=0.9.2
+    RANCHER_COMPOSE_VERSION=0.12.1
 
 RUN apt-get update && \
     apt-get -y upgrade && \
