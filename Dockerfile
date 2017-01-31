@@ -6,8 +6,9 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     PATH=$JAVA_HOME/bin:$PATH \
     JENKINS_SWARM_VERSION=2.2 \
     HOME=/home/jenkins-slave \
-    DOCKER_VERSION=1.11.2 \
-    RANCHER_COMPOSE_VERSION=0.12.1
+    DOCKER_VERSION=1.12.6 \
+    DOCKER_COMPOSE_VERSION=1.10.0 \
+    RANCHER_COMPOSE_VERSION=0.12.2
 
 RUN apt-get update && \
     apt-get -y upgrade && \
@@ -28,12 +29,15 @@ RUN apt-get update && \
 RUN useradd -c "Jenkins Slave user" -d $HOME -m jenkins-slave
 RUN curl --create-dirs -sSLo $HOME/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar
 
-# now we install docker in docker - thanks to https://github.com/jpetazzo/dind
 # We install newest docker into our docker in docker container
 RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION.tgz \
   && tar --strip-components=1 -xvzf docker-$DOCKER_VERSION.tgz -C /usr/local/bin \
   && chmod +x /usr/local/bin/docker \
   && rm -f docker-$DOCKER_VERSION.tgz
+
+# Install docker compose
+RUN curl -fsSLO https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose
 
 # Install rancher-compose
 RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$RANCHER_COMPOSE_VERSION/rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz \
