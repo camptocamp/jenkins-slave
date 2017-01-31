@@ -36,8 +36,10 @@ RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSIO
   && rm -f docker-$DOCKER_VERSION.tgz
 
 # Install docker compose
-RUN curl -fsSLO https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose \
-    && chmod +x /usr/local/bin/docker-compose
+RUN curl -fsSLO https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-Linux-x86_64 \
+    && cp docker-compose-Linux-x86_64 /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose \
+    && rm -f docker-compose-Linux-x86_64
 
 # Install rancher-compose
 RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$RANCHER_COMPOSE_VERSION/rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz \
