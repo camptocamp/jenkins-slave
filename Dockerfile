@@ -47,6 +47,11 @@ RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$R
   && chmod +x /usr/local/bin/rancher-compose \
   && rm -f rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz
 
+# Install virtualenv
+RUN apt-get update && \
+    apt-get install -y python-virtualenv && \
+    apt-get clean
+
 # Install basic development tools
 RUN apt-get update && \
     apt-get install -y make && \
