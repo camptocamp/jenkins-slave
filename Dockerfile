@@ -4,10 +4,10 @@ MAINTAINER Raphaël Pinson <raphael.pinson@camptocamp.com>
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     PATH=$JAVA_HOME/bin:$PATH \
-    JENKINS_SWARM_VERSION=2.2 \
+    JENKINS_SWARM_VERSION=3.3 \
     HOME=/home/jenkins-slave \
     DOCKER_VERSION=1.11.2 \
-    DOCKER_COMPOSE_VERSION=1.10.0 \
+    DOCKER_COMPOSE_VERSION=1.11.2 \
     RANCHER_COMPOSE_VERSION=0.12.2
 
 RUN apt-get update && \
@@ -16,7 +16,7 @@ RUN apt-get update && \
     apt-get clean
 
 RUN add-apt-repository ppa:webupd8team/java -y && \
-    apt-get update && \ 
+    apt-get update && \
     (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) && \
     apt-get install -y oracle-java8-installer oracle-java8-set-default && \
     apt-get clean
