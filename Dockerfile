@@ -4,7 +4,7 @@ MAINTAINER Raphaël Pinson <raphael.pinson@camptocamp.com>
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     PATH=$JAVA_HOME/bin:$PATH \
-    JENKINS_SWARM_VERSION=3.3 \
+    JENKINS_SWARM_VERSION=3.4 \
     HOME=/home/jenkins-slave \
     DOCKER_VERSION=1.11.2 \
     DOCKER_COMPOSE_VERSION=1.11.2 \
