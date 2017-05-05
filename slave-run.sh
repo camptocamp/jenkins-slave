@@ -37,4 +37,25 @@ else
   fi
 fi
 
+# Add label containing all host facts for dynamic node selection in shared library groovy scripts
+# example:
+#
+# import jenkins.model.*
+# import groovy.json.JsonSlurper
+#
+# for (slave in jenkins.model.Jenkins.instance.slaves) {
+#     labels = slave.getLabelString()
+#   for (label in labels.split(" ")) {
+#
+#     if (label.startsWith('{"facts"')){
+#     def facts = new JsonSlurper().parseText(label)
+#     println facts.facts
+#     }
+#   }
+# }
+#
+FACTS=$(facter --json | tr -d '[:space:]')
+FACTS_LABEL="{\"facts\":${FACTS}}"
+PARAMS="$PARAMS -labels ${FACTS_LABEL}"
+
 java -jar $JAR $PARAMS -fsroot $HOME
