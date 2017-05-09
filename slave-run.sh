@@ -37,7 +37,7 @@ else
   fi
 fi
 
-# Add label containing all host facts for dynamic node selection in shared library groovy scripts
+# Add dexcription containing all host facts for dynamic node selection in shared library groovy scripts
 # example:
 #
 # import jenkins.model.*
@@ -56,6 +56,6 @@ fi
 #
 FACTS=$(facter --json | tr -d '[:space:]')
 FACTS_LABEL="{\"facts\":${FACTS}}"
-PARAMS="$PARAMS -labels ${FACTS_LABEL}"
+PARAMS="$PARAMS -description ${FACTS_LABEL}"
 
 java -jar $JAR $PARAMS -fsroot $HOME
