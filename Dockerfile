@@ -23,7 +23,7 @@ RUN add-apt-repository ppa:webupd8team/java -y && \
 
 # apparmor is required to run docker server within docker container
 RUN apt-get update && \
-    apt-get install -y wget curl git iptables ca-certificates apparmor && \
+    apt-get install -y wget curl git iptables ca-certificates && \
     apt-get clean
 
 RUN useradd -c "Jenkins Slave user" -d $HOME -m jenkins-slave
@@ -62,9 +62,14 @@ RUN apt-get update && \
     apt-get install -y runit && \
     apt-get clean
 
-# Install facter
+# Install facter && bc for type generation
 RUN apt-get update && \
-    apt-get install -y facter && \
+    apt-get install -y facter bc && \
+    apt-get clean
+
+# Install basic debugging tools
+RUN apt-get update && \
+    apt-get install -y vim netcat && \
     apt-get clean
 
 
