@@ -6,7 +6,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     PATH=$JAVA_HOME/bin:$PATH \
     JENKINS_SWARM_VERSION=3.3 \
     HOME=/home/jenkins-slave \
-    DOCKER_VERSION=1.11.2 \
+    DOCKER_VERSION=1.12.6 \
     DOCKER_COMPOSE_VERSION=1.11.2 \
     RANCHER_COMPOSE_VERSION=0.12.2
 
