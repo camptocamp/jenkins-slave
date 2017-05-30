@@ -5,8 +5,9 @@ exec 2>&1
 # jenkins swarm slave
 JAR=`ls -1 $HOME/swarm-client-*.jar | tail -n 1`
 
-# Disables Clients unique ID for slave name as we already have unique names with rancher
-PARAMS="-disableClientsUniqueId"
+# Disables Clients unique ID for slave name as we already have unique names with rancher and
+# add workaround 3.4 issue (https://issues.jenkins-ci.org/browse/JENKINS-44210)
+PARAMS="-disableClientsUniqueId -sslFingerprints ''"
 
 if [ ! -z "$JENKINS_USERNAME" ]; then
   PARAMS="$PARAMS -username $JENKINS_USERNAME"
