@@ -8,7 +8,8 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     HOME=/home/jenkins-slave \
     DOCKER_VERSION=1.12.6 \
     DOCKER_COMPOSE_VERSION=1.12.0 \
-    RANCHER_COMPOSE_VERSION=0.12.2
+    RANCHER_COMPOSE_VERSION=0.12.2 \
+    RANCHER_CLI_VERSION=0.6.1
 
 RUN apt-get update && \
     apt-get -y upgrade && \
@@ -46,6 +47,9 @@ RUN curl -fsSLO https://github.com/rancher/rancher-compose/releases/download/v$R
   && tar --strip-components=2 -xvzf rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz -C /usr/local/bin \
   && chmod +x /usr/local/bin/rancher-compose \
   && rm -f rancher-compose-linux-amd64-v$RANCHER_COMPOSE_VERSION.tar.gz
+
+RUN curl -fsSL "https://releases.rancher.com/cli/v${RANCHER_CLI_VERSION}/rancher-linux-amd64-v${RANCHER_CLI_VERSION}.tar.gz" | tar --strip-components=2 -xvzC /usr/local/bin \
+  && chmod +x /usr/local/bin/rancher
 
 # Install virtualenv
 RUN apt-get update && \
