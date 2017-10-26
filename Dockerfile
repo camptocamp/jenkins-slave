@@ -52,7 +52,7 @@ RUN curl -sSL "https://releases.rancher.com/cli/v${RANCHER_CLI_VERSION}/rancher-
 
 # Install virtualenv
 RUN apt-get update && \
-    apt-get install -y python-virtualenv && \
+    apt-get install -y python-virtualenv python3-netifaces && \
     apt-get clean
 
 # Install basic development tools
