@@ -3,9 +3,9 @@ FROM ubuntu:xenial
 MAINTAINER Raphaël Pinson <raphael.pinson@camptocamp.com>
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
-    JAVA_OPTS="-Dorg.jenkinsci.plugins.durabletask.BourneShellScript.LAUNCH_FAILURE_TIMEOUT=300" \
+    JAVA_OPTS="-Dfile.encoding=UTF-8 -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.LAUNCH_FAILURE_TIMEOUT=300" \
     PATH=$JAVA_HOME/bin:$PATH \
-    JENKINS_SWARM_VERSION=3.4 \
+    JENKINS_SWARM_VERSION=3.7 \
     HOME=/home/jenkins-slave \
     DOCKER_VERSION=1.12.6 \
     DOCKER_COMPOSE_VERSION=1.16.1 \
